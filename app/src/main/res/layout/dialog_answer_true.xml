@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_gravity="center"
+    app:cardCornerRadius="20dp"
+    android:layout_marginLeft="5dp"
+    android:layout_marginRight="5dp"
+    android:layout_marginTop="5dp"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:background="@color/colorAccent"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/tvKQ"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="chính xác"
+            android:textAlignment="center"
+            android:textSize="36sp"
+            android:textStyle="bold" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal"
+            android:layout_height="match_parent">
+            <Button
+                android:id="@+id/btnBack"
+                android:layout_margin="8dp"
+                android:drawableLeft="@drawable/ic_navigate_before_black_24dp"
+                android:text="làm lại"
+                android:drawablePadding="10dp"
+                android:paddingRight="26dp"
+                android:textAlignment="center"
+                android:background="@drawable/button_nocolor"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"/>
+            <Button
+                android:id="@+id/btNext"
+                android:layout_margin="8dp"
+                android:drawableRight="@drawable/ic_navigate_next_black_24dp"
+                android:text="tiếp tục"
+                android:drawablePadding="10dp"
+                android:paddingLeft="26dp"
+                android:background="@drawable/button_nocolor"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"/>
+        </LinearLayout>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_like"
+        android:icon="@drawable/header_image"
+        android:title="ưa thích" />
+
+    <item
+        android:id="@+id/navigation_history"
+        android:icon="@drawable/header_image"
+        android:title="lịch sử" />
+
+
+
+</menu>
