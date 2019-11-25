@@ -9,6 +9,7 @@ import androidx.room.Room;
 
 import com.example.project1.R;
 import com.example.project1.database.AppDatabase;
+import com.example.project1.database.DataBaseHelper;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class MainActivity extends BaseActivity {
@@ -22,6 +23,7 @@ public class MainActivity extends BaseActivity {
     private LinearLayout help;
 
     public static AppDatabase db;
+    public static DataBaseHelper dataBaseHelper;
 
 
     @Override
@@ -31,8 +33,10 @@ public class MainActivity extends BaseActivity {
         initView();
 
         db = Room.databaseBuilder(this,
-                AppDatabase.class, "DuAnDemo1.db").allowMainThreadQueries().build();
+                AppDatabase.class, "DuAnDemo2.db").allowMainThreadQueries().build();
 
+        dataBaseHelper = new DataBaseHelper(this);
+        dataBaseHelper.createDataBase();
 
         alphabet.setOnClickListener(new View.OnClickListener() {
             @Override
