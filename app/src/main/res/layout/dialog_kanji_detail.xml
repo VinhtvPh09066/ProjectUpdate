@@ -1,34 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@drawable/dialog_rounder"
     android:orientation="vertical"
     android:padding="8dp">
 
-   <RelativeLayout
-       android:layout_width="match_parent"
-       android:layout_height="wrap_content"
-       android:orientation="horizontal">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
-       <TextView
-           android:background="@drawable/dialog_rounder"
-           android:id="@+id/tvKanji"
-           android:layout_width="150dp"
-           android:layout_height="wrap_content"
-           android:gravity="center"
-           android:layout_centerInParent="true"
-           android:text="A"
-           android:textColor="@color/colorPrimary"
-           android:textSize="80sp" />
+        <TextView
+            android:id="@+id/tvKanji"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:background="@drawable/dialog_rounder"
+            android:gravity="center"
+            android:text="A"
+            android:textColor="@color/colorPrimary"
+            android:textSize="80sp" />
 
-       <ImageView
-           android:layout_alignParentRight="true"
-           android:id="@+id/imbCancel"
-           android:layout_width="30dp"
-           android:layout_height="30dp"
-           android:src="@drawable/ic_cancel_black_24dp"/>
+        <ImageView
+            android:id="@+id/imbCancel"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/ic_cancel_black_24dp" />
 
-   </RelativeLayout>
+    </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -43,11 +45,11 @@
             android:orientation="vertical">
 
             <TextView
-                android:paddingLeft="8dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#E0E4E2"
+                android:paddingLeft="8dp"
                 android:text="Âm Hán :"
                 android:textColor="@color/colorAccent" />
 
@@ -60,12 +62,12 @@
                 android:textSize="20sp" />
 
             <TextView
-                android:paddingLeft="8dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:layout_weight="1"
                 android:background="#E0E4E2"
+                android:paddingLeft="8dp"
                 android:text="Kunyomi : "
                 android:textColor="@color/colorAccent" />
 
@@ -80,18 +82,18 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_marginLeft="8dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
             android:layout_weight="1"
             android:orientation="vertical">
 
             <TextView
-                android:paddingLeft="8dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#E0E4E2"
+                android:paddingLeft="8dp"
                 android:text="Nghĩa : "
                 android:textColor="@color/colorAccent" />
 
@@ -104,12 +106,12 @@
                 android:textSize="20sp" />
 
             <TextView
-                android:paddingLeft="8dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:layout_weight="1"
                 android:background="#E0E4E2"
+                android:paddingLeft="8dp"
                 android:text="Onyomi : "
                 android:textColor="@color/colorAccent" />
 
@@ -132,20 +134,20 @@
         android:orientation="vertical">
 
         <TextView
-            android:paddingLeft="8dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#E0E4E2"
+            android:paddingLeft="8dp"
             android:text="Ví dụ: "
             android:textColor="@color/colorAccent" />
 
         <TextView
-            android:paddingLeft="8dp"
-            android:layout_marginTop="8dp"
             android:id="@+id/tvNote"
-            android:lineSpacingExtra="8dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:lineSpacingExtra="8dp"
+            android:paddingLeft="8dp" />
 
     </LinearLayout>
 

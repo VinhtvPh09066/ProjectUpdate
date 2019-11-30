@@ -6,6 +6,7 @@
     android:layout_marginLeft="5dp"
     android:layout_marginRight="5dp"
     android:gravity="center">
+
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -29,108 +30,108 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:textColor="@color/white"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:text="Thông báo"
-                    android:textSize="30sp"
+                    android:text="Kết quả"
                     android:textAlignment="center"
-                    android:textStyle="bold"/>
+                    android:textColor="@color/white"
+                    android:textSize="32sp"
+                    android:textStyle="bold" />
+
                 <ImageView
+                    android:id="@+id/img"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:id="@+id/img"
                     android:layout_marginBottom="10dp"
-                    android:src="@drawable/ic_error_outline_black_24dp"/>
+                    android:src="@drawable/ic_error_outline_black_24dp" />
+
                 <TextView
-                    android:textColor="@color/white"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:text="Bạn đã kết thúc kiểm tra!"
-                    android:textSize="18sp"
+                    android:text="Chưa đạt, bạn hãy nổ lực nhiều hơn !"
                     android:textAlignment="center"
-                    android:textStyle="bold"/>
+                    android:textColor="@color/white"
+                    android:textSize="20sp" />
+
                 <LinearLayout
-                    android:orientation="horizontal"
                     android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
                     android:gravity="center"
-                    android:layout_height="wrap_content">
+                    android:orientation="horizontal">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:text="Kết quả: "
                         android:textColor="@color/white"
-                        android:text="Bạn đạt được: "
-                        android:textSize="18sp"
-                        android:textStyle="bold"/>
+                        android:textSize="20sp"/>
+
                     <TextView
-                        android:textColor="@color/white"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
                         android:id="@+id/tvDiem1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:text="10"
-                        android:textSize="18sp"
-                        android:textStyle="bold"/>
+                        android:textColor="@color/white"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="/"
                         android:textColor="@color/white"
-                        android:textSize="18sp"
-                        android:textStyle="bold"/>
+                        android:textSize="24sp"
+                        android:textStyle="bold" />
+
                     <TextView
-                        android:textColor="@color/white"
                         android:id="@+id/tvTong"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="20"
-                        android:textSize="18sp"
-                        android:textStyle="bold"/>
-                    <TextView
                         android:textColor="@color/white"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text=" câu"
-                        android:textSize="18sp"
-                        android:textStyle="bold"/>
+                        android:textColor="@color/white"
+                        android:textSize="20sp" />
                 </LinearLayout>
+
                 <LinearLayout
-                    android:padding="10dp"
-                    android:orientation="horizontal"
-                    android:gravity="center_horizontal"
+                    android:layout_marginTop="16dp"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal"
+                    android:padding="10dp">
+
                     <Button
                         android:id="@+id/btnBack1"
-                        android:textColor="@color/white"
-                        android:layout_margin="4dp"
-                        android:drawableLeft="@drawable/ic_navigate_before_black_24dp"
-                        android:background="@drawable/button_nocolorfalse"
-                        android:layout_width="wrap_content"
-                        android:text="thoát"
+                        android:layout_width="120dp"
                         android:layout_height="40dp"
-                        android:paddingRight="15dp"
-                        android:drawablePadding="1dp"
-                        android:textSize="14sp"
-                        />
-                    <Button
-                        android:id="@+id/btnRequest1"
-                        android:textColor="@color/white"
-                        android:layout_margin="4dp"
-                        android:drawableRight="@drawable/ic_navigate_next_black_24dp"
                         android:background="@drawable/button_nocolorfalse"
-                        android:layout_width="wrap_content"
+                        android:text="thoát"
+                        android:textColor="@color/white"
+                        android:textSize="16sp" />
+
+                    <Button
+                        android:layout_marginLeft="24dp"
+                        android:id="@+id/btnRequest1"
+                        android:layout_width="120dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/button_nocolorfalse"
+                        android:drawableLeft="@drawable/ic_refresh_black_24dp"
+                        android:drawableTint="@color/white"
+                        android:paddingLeft="12dp"
+                        android:paddingRight="16dp"
                         android:text="làm lại"
-                        android:paddingLeft="20dp"
-                        android:drawablePadding="1dp"
-                        android:textSize="14sp"
-                        android:layout_height="40dp"/>
+                        android:textColor="@color/white"
+                        android:textSize="16sp" />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>

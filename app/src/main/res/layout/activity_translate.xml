@@ -40,7 +40,7 @@
         android:backgroundTint="@color/colorPrimaryDark"
         android:src="@drawable/ic_arrow_drop_up_black_24dp"
         android:tint="@color/white"
-        app:maxImageSize="48dp"
+        app:maxImageSize="40dp"
         app:layout_dodgeInsetEdges="bottom" />
 
     <LinearLayout

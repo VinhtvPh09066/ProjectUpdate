@@ -16,229 +16,43 @@ import android.widget.TextView;
 import androidx.appcompat.app.AlertDialog;
 
 import com.example.project1.R;
-import com.example.project1.database.ExamN5Sql;
 import com.example.project1.database.QuestionBank;
+import com.example.project1.presenter.QuizPresenter;
+import com.example.project1.view.QuizView;
 
-public class QuizActivity extends BaseActivity implements View.OnClickListener {
+public class QuizActivity extends BaseActivity implements QuizView, View.OnClickListener {
 
+    QuizPresenter quizPresenter;
     private QuestionBank mQuestionLibrary = new QuestionBank();
-
-    private TextView mScoreView;   // view for current total score
-    private TextView mQuestionView, tvQuestion;  //current question to answer
-    private Button mButtonChoice1; // multiple choice 1 for mQuestionView
-    private Button mButtonChoice2; // multiple choice 2 for mQuestionView
-    private Button mButtonChoice3; // multiple choice 3 for mQuestionView
-    private Button mButtonChoice4; // multiple choice 4 for mQuestionView
+    private TextView mScoreView;
+    private TextView mQuestionView, tvQuestion;
+    private Button mButtonChoice1;
+    private Button mButtonChoice2;
+    private Button mButtonChoice3;
+    private Button mButtonChoice4;
     private Button btnStop;
-    private String mAnswer;  // correct answer for question in mQuestionView
-    private int mScore = 0;  // current total score
-    private int dem = 1;
-    private int mQuestionNumber = 0; // current question number
-    ExamN5Sql examN5Sql;
-    String a = "A";
-    String a2 = "B";
-    String a3 = "C";
+    private String mAnswer;
+    public int mScore = 0;
+    private int mQuestionNumber = 0;
     Dialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz);
+        quizPresenter = new QuizPresenter(this);
         initView();
-        initData();
-        initStop();
-    }
+        initAction();
 
-
-    private void updateQuestion() {
-        if (mQuestionNumber <= 19) {
-            mQuestionView.setText(mQuestionLibrary.getQuestion(mQuestionNumber));
-            mButtonChoice1.setText(mQuestionLibrary.getChoice(mQuestionNumber, 1));
-            mButtonChoice2.setText(mQuestionLibrary.getChoice(mQuestionNumber, 2));
-            mButtonChoice3.setText(mQuestionLibrary.getChoice(mQuestionNumber, 3));
-            mButtonChoice4.setText(mQuestionLibrary.getChoice(mQuestionNumber, 4));
-            mAnswer = mQuestionLibrary.getCorrectAnswer(mQuestionNumber);
-            mQuestionNumber++;
-
-            //animation
-            ObjectAnimator animLeft = (ObjectAnimator) AnimatorInflater.loadAnimator(this, R.animator.left_to_right);
-            animLeft.setTarget(mButtonChoice1);
-            animLeft.start();
-            animLeft = (ObjectAnimator) AnimatorInflater.loadAnimator(this, R.animator.left_to_right);
-            animLeft.setTarget(mButtonChoice3);
-            animLeft.start();
-            ObjectAnimator animRight = (ObjectAnimator) AnimatorInflater.loadAnimator(this, R.animator.right_to_left);
-            animRight.setTarget(mButtonChoice2);
-            animRight.start();
-            animRight = (ObjectAnimator) AnimatorInflater.loadAnimator(this, R.animator.right_to_left);
-            animRight.setTarget(mButtonChoice4);
-            animRight.start();
-
-
-        } else {
-            if (mScore > 10) {
-                tvQuestion.setText(20 + "/" + 20);
-                AlertDialog.Builder builder = new AlertDialog.Builder(QuizActivity.this);
-                View alert = LayoutInflater.from(QuizActivity.this).inflate(R.layout.dialog_notificationtrue, null);
-                builder.setView(alert);
-                builder.setCancelable(false);
-                TextView tvDiem;
-                Button btnBack, btnRequest;
-                ImageView imgmedal;
-                tvDiem = (TextView) alert.findViewById(R.id.tvDiem);
-                btnBack = alert.findViewById(R.id.btnBack);
-                btnRequest = alert.findViewById(R.id.btnRequest);
-                imgmedal = alert.findViewById(R.id.imgmedal);
-                tvDiem.setText("" + mScore);
-                ObjectAnimator animLeft = (ObjectAnimator) AnimatorInflater.loadAnimator(this, R.animator.left_to_right);
-                animLeft.setTarget(btnBack);
-                animLeft.start();
-                ObjectAnimator animRight = (ObjectAnimator) AnimatorInflater.loadAnimator(this, R.animator.right_to_left);
-                animRight = (ObjectAnimator) AnimatorInflater.loadAnimator(this, R.animator.right_to_left);
-                animRight.setTarget(btnRequest);
-                animRight.start();
-                ObjectAnimator animator = ObjectAnimator.ofFloat(imgmedal, View.ROTATION_Y, 0, 360);
-                animator.setRepeatCount(100);
-                animator.setDuration(4000);
-                animator.start();
-                btnBack.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        openActivity(MainActivity.class);
-                    }
-                });
-                btnRequest.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        finish();
-                    }
-                });
-                AlertDialog alertDialog = builder.create();
-                alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                alertDialog.show();
-            } else {
-                tvQuestion.setText(20 + "/" + 20);
-                AlertDialog.Builder builder = new AlertDialog.Builder(QuizActivity.this);
-                View alert = LayoutInflater.from(QuizActivity.this).inflate(R.layout.dialog_notificationfalse, null);
-                builder.setView(alert);
-                builder.setCancelable(false);
-                TextView tvDiem1;
-                Button btnBack1, btnRequest1;
-                ImageView imgmedal;
-                tvDiem1 = (TextView) alert.findViewById(R.id.tvDiem1);
-                btnBack1 = alert.findViewById(R.id.btnBack1);
-                btnRequest1 = alert.findViewById(R.id.btnRequest1);
-                imgmedal = alert.findViewById(R.id.img);
-                tvDiem1.setText("" + mScore);
-                ObjectAnimator animLeft = (ObjectAnimator) AnimatorInflater.loadAnimator(this, R.animator.left_to_right);
-                animLeft.setTarget(btnBack1);
-                animLeft.start();
-                ObjectAnimator animRight = (ObjectAnimator) AnimatorInflater.loadAnimator(this, R.animator.right_to_left);
-                animRight = (ObjectAnimator) AnimatorInflater.loadAnimator(this, R.animator.right_to_left);
-                animRight.setTarget(btnRequest1);
-                animRight.start();
-                ObjectAnimator animator = ObjectAnimator.ofFloat(imgmedal, View.ROTATION_Y, 0, 360);
-                animator.setRepeatCount(100);
-                animator.setDuration(4000);
-                animator.start();
-                btnBack1.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        openActivity(MainActivity.class);
-                    }
-                });
-                btnRequest1.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        finish();
-                    }
-                });
-                AlertDialog alertDialog = builder.create();
-                alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                alertDialog.show();
-            }
-
-        }
-    }
-
-
-    private void updateScore(int point,int count) {
-        mScoreView.setText("" + point + "/" + 20);
-        tvQuestion.setText("" + count + "/" + 20);
+        //lấy lại dữ liệu click từ activity trước và sét data tương ứng.
+        Intent intent = getIntent();
+        String b = intent.getStringExtra("ExamN5");
+        quizPresenter.initData(b);
 
     }
 
-
-    public void onClick(View view) {
-        Button answer = (Button) view;
-        if (answer.getText().equals(mAnswer)) {
-            mScore = mScore + 1;
-            AlertDialog.Builder builder = new AlertDialog.Builder(QuizActivity.this);
-            View v = LayoutInflater.from(this).inflate(R.layout.dialog_answer_true, null);
-            builder.setCancelable(false);
-            builder.setView(v);
-            TextView tvKQ;
-            Button btnBack;
-            Button btNext;
-
-            tvKQ = (TextView) v.findViewById(R.id.tvKQ);
-
-            btnBack = (Button) v.findViewById(R.id.btnBack);
-            btNext = (Button) v.findViewById(R.id.btNext);
-            tvKQ.setText("Chính xác");
-            tvKQ.setTextColor(getResources().getColor(R.color.greenn));
-            btnBack.setVisibility(View.GONE);
-            btNext.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    updateScore(mScore,dem+=1);
-                    updateQuestion();
-                    dialog.dismiss();
-                }
-            });
-
-
-            AlertDialog alertDialog = builder.create();
-            alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-            dialog = alertDialog;
-            alertDialog.show();
-        } else {
-            final AlertDialog.Builder builder = new AlertDialog.Builder(QuizActivity.this);
-            View v = LayoutInflater.from(this).inflate(R.layout.dialog_answer_true, null);
-            builder.setCancelable(false);
-            builder.setView(v);
-            TextView tvKQ;
-
-            Button btnBack;
-            Button btNext;
-            tvKQ = (TextView) v.findViewById(R.id.tvKQ);
-            btnBack = (Button) v.findViewById(R.id.btnBack);
-            btNext = (Button) v.findViewById(R.id.btNext);
-            tvKQ.setText("Không Chính Xác");
-            tvKQ.setTextColor(getResources().getColor(R.color.red));
-            btnBack.setVisibility(View.VISIBLE);
-            btnBack.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    dialog.dismiss();
-                }
-            });
-            btNext.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    updateScore(mScore,dem+=1);
-                    updateQuestion();
-                    dialog.dismiss();
-                }
-            });
-
-
-            AlertDialog alertDialog1 = builder.create();
-            alertDialog1.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-            dialog = alertDialog1;
-            alertDialog1.show();
-        }
-
+    public void initAction() {
+        btnStop.setOnClickListener(this);
 
     }
 
@@ -253,101 +67,301 @@ public class QuizActivity extends BaseActivity implements View.OnClickListener {
         btnStop = findViewById(R.id.btnStop);
     }
 
+
+    @Override
+    public void initDataNguPhap() {
+        mQuestionLibrary.initQuestions(getApplicationContext());
+        getSupportActionBar().setTitle("文法 / Ngữ pháp");
+        quizPresenter.updatecauhoi(mQuestionNumber, mScore);
+
+    }
+
+    @Override
+    public void initDataChuHan() {
+        mQuestionLibrary.initQuestions1(getApplicationContext());
+        getSupportActionBar().setTitle("漢字 / Chữ hán");
+        quizPresenter.updatecauhoi(mQuestionNumber, mScore);
+    }
+
+    @Override
+    public void initDataTuVung() {
+        mQuestionLibrary.initQuestions2(getApplicationContext());
+        getSupportActionBar().setTitle("語彙 / Từ vựng");
+        quizPresenter.updatecauhoi(mQuestionNumber, mScore);
+    }
+
+    @Override
     public void initStop() {
-        btnStop.setOnClickListener(new View.OnClickListener() {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(QuizActivity.this);
+        View view = LayoutInflater.from(QuizActivity.this).inflate(R.layout.dialog_notification, null);
+        builder.setView(view);
+
+
+        //khai báo và ánh xạ
+        ImageView img;
+        Button btnHuy;
+        Button btnDongY;
+        img = (ImageView) view.findViewById(R.id.img);
+        btnHuy = (Button) view.findViewById(R.id.btnHuy);
+        btnDongY = (Button) view.findViewById(R.id.btnDongY);
+
+        //set animation
+        animationRotation(img);
+        animationLeftToRight(btnHuy);
+        animationRightToLeft(btnDongY);
+
+
+        //set onclick
+        btnDongY.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final AlertDialog.Builder builder = new AlertDialog.Builder(QuizActivity.this);
-                View view = LayoutInflater.from(QuizActivity.this).inflate(R.layout.dialog_notification, null);
-                builder.setView(view);
-                ImageView img;
-                Button btnHuy;
-                Button btnDongY;
-                img = (ImageView) view.findViewById(R.id.img);
-                btnHuy = (Button) view.findViewById(R.id.btnHuy);
-                btnDongY = (Button) view.findViewById(R.id.btnDongY);
-                ObjectAnimator animator = ObjectAnimator.ofFloat(img, View.ROTATION_Y, 0, 360);
-                animator.setRepeatCount(100);
-                animator.setDuration(4000);
-                animator.start();
-                ObjectAnimator animLeft = (ObjectAnimator) AnimatorInflater.loadAnimator(QuizActivity.this, R.animator.left_to_right);
-                animLeft.setTarget(btnHuy);
-                animLeft.start();
-                ObjectAnimator animRight = (ObjectAnimator) AnimatorInflater.loadAnimator(QuizActivity.this, R.animator.right_to_left);
-                animRight.setTarget(btnDongY);
-                animRight.start();
-                btnDongY.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(QuizActivity.this);
+                View alert = LayoutInflater.from(QuizActivity.this).inflate(R.layout.dialog_notificationtrue, null);
+                builder.setView(alert);
+                builder.setCancelable(false);
 
-                        AlertDialog.Builder builder = new AlertDialog.Builder(QuizActivity.this);
-                        View alert = LayoutInflater.from(QuizActivity.this).inflate(R.layout.dialog_notificationtrue, null);
-                        builder.setView(alert);
-                        builder.setCancelable(false);
-                        TextView tvDiem;
-                        Button btnBack, btnRequest;
-                        ImageView imgmedal;
-                        tvDiem = (TextView) alert.findViewById(R.id.tvDiem);
-                        btnBack = alert.findViewById(R.id.btnBack);
-                        btnRequest = alert.findViewById(R.id.btnRequest);
-                        imgmedal = alert.findViewById(R.id.imgmedal);
-                        tvDiem.setText("" + mScore);
-                        ObjectAnimator animLeft = (ObjectAnimator) AnimatorInflater.loadAnimator(QuizActivity.this, R.animator.left_to_right);
-                        animLeft.setTarget(btnBack);
-                        animLeft.start();
-                        ObjectAnimator animRight = (ObjectAnimator) AnimatorInflater.loadAnimator(QuizActivity.this, R.animator.right_to_left);
-                        animRight = (ObjectAnimator) AnimatorInflater.loadAnimator(QuizActivity.this, R.animator.right_to_left);
-                        animRight.setTarget(btnRequest);
-                        animRight.start();
-                        ObjectAnimator animator = ObjectAnimator.ofFloat(imgmedal, View.ROTATION_Y, 0, 360);
-                        animator.setRepeatCount(100);
-                        animator.setDuration(4000);
-                        animator.start();
-                        btnBack.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                openActivity(MainActivity.class);
-                            }
-                        });
-                        btnRequest.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                finish();
-                            }
-                        });
-                        AlertDialog alertDialog = builder.create();
-                        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                        alertDialog.show();
-                    }
-                });
-                btnHuy.setOnClickListener(new View.OnClickListener() {
+                //khai báo và ánh xạ
+                TextView tvDiem;
+                Button btnBack, btnRequest;
+                ImageView imgmedal;
+                tvDiem = (TextView) alert.findViewById(R.id.tvDiem);
+                btnBack = alert.findViewById(R.id.btnBackHome);
+                btnRequest = alert.findViewById(R.id.btnRequest);
+                imgmedal = alert.findViewById(R.id.imgmedal);
+                tvDiem.setText("" + mScore);
+
+                //set animaton
+                animationLeftToRight(btnBack);
+                animationRotation(imgmedal);
+
+
+                // set onlick
+                btnBack.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        dialog.dismiss();
+                        openActivity(MainActivity.class);
                     }
                 });
+                btnRequest.setVisibility(View.GONE);
+
+
                 AlertDialog alertDialog = builder.create();
-                dialog = alertDialog;
                 alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 alertDialog.show();
             }
         });
+        btnHuy.setOnClickListener(this);
+
+
+        AlertDialog alertDialog = builder.create();
+        dialog = alertDialog;
+        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        alertDialog.show();
     }
 
-    public void initData() {
-        Intent intent = getIntent();
-        String b = intent.getStringExtra("ExamN5");
-        if (b.equals(a)) {
-            mQuestionLibrary.initQuestions(getApplicationContext());
-            getSupportActionBar().setTitle("文法 / Ngữ pháp");
-        } else if (b.equals(a2)) {
-            mQuestionLibrary.initQuestions1(getApplicationContext());;
-            getSupportActionBar().setTitle("漢字 / Chữ hán");
-        } else if (b.equals(a3)) {
-            mQuestionLibrary.initQuestions2(getApplicationContext());
-            getSupportActionBar().setTitle("語彙 / Từ vựng");
-        }
-        updateQuestion();
-        updateScore(mScore,dem);
+    @Override
+    public void showDialogTheEndTrue() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(QuizActivity.this);
+        View alert = LayoutInflater.from(QuizActivity.this).inflate(R.layout.dialog_notificationtrue, null);
+        builder.setView(alert);
+        builder.setCancelable(false);
+
+
+        //khai báo và ánh xạ
+        TextView tvDiem;
+        Button btnBack, btnRequest;
+        ImageView imgmedal;
+        tvDiem = alert.findViewById(R.id.tvDiem);
+        btnBack = alert.findViewById(R.id.btnBackHome);
+        btnRequest = alert.findViewById(R.id.btnRequest);
+        imgmedal = alert.findViewById(R.id.imgmedal);
+        tvDiem.setText("" + mScore);
+
+
+        //set animation
+        animationLeftToRight(btnBack);
+        animationRightToLeft(btnRequest);
+        animationRotation(imgmedal);
+
+        // set Action
+        btnBack.setOnClickListener(this);
+        btnRequest.setOnClickListener(this);
+
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        alertDialog.show();
     }
+
+    @Override
+    public void showDialogTheEndFalse() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(QuizActivity.this);
+        View alert = LayoutInflater.from(QuizActivity.this).inflate(R.layout.dialog_notificationfalse, null);
+        builder.setView(alert);
+        builder.setCancelable(false);
+
+        // khai báo và ánh xạ
+        TextView tvDiem1;
+        Button btnBack1, btnRequest1;
+        ImageView imgmedal;
+        tvDiem1 = alert.findViewById(R.id.tvDiem1);
+        btnBack1 = alert.findViewById(R.id.btnBack1);
+        btnRequest1 = alert.findViewById(R.id.btnRequest1);
+        imgmedal = alert.findViewById(R.id.img);
+        tvDiem1.setText("" + mScore);
+
+
+        //set animation
+        animationLeftToRight(btnBack1);
+        animationRightToLeft(btnRequest1);
+        animationRotation(imgmedal);
+
+
+        //set Action
+        btnBack1.setOnClickListener(this);
+        btnRequest1.setOnClickListener(this);
+
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        alertDialog.show();
+    }
+
+    @Override
+    public void napCauHoi() {
+        mQuestionView.setText(mQuestionLibrary.getQuestion(mQuestionNumber));
+        mButtonChoice1.setText(mQuestionLibrary.getChoice(mQuestionNumber, 1));
+        mButtonChoice2.setText(mQuestionLibrary.getChoice(mQuestionNumber, 2));
+        mButtonChoice3.setText(mQuestionLibrary.getChoice(mQuestionNumber, 3));
+        mButtonChoice4.setText(mQuestionLibrary.getChoice(mQuestionNumber, 4));
+        mAnswer = mQuestionLibrary.getCorrectAnswer(mQuestionNumber);
+        mQuestionNumber++;
+        animationLeftToRight(mButtonChoice1);
+        animationLeftToRight(mButtonChoice3);
+        animationRightToLeft(mButtonChoice2);
+        animationRightToLeft(mButtonChoice4);
+
+    }
+
+
+    @Override
+    public void updateCount(int mQuestionNumber) {
+        tvQuestion.setText("" + mQuestionNumber + "/" + 20);
+
+    }
+
+
+    @Override
+    public void showDialogAnswerTrue() {
+        mScore++;
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(QuizActivity.this);
+        View v = LayoutInflater.from(this).inflate(R.layout.dialog_answer_true, null);
+        builder.setCancelable(false);
+        builder.setView(v);
+
+        //khai báo và ánh xạ
+        TextView tvKQ;
+        Button btnBack;
+        Button btNext;
+        tvKQ = (TextView) v.findViewById(R.id.tvKQ);
+        btnBack = (Button) v.findViewById(R.id.btnBack);
+        btNext = (Button) v.findViewById(R.id.btNext);
+
+        //set text và color khi đoán đúng
+        tvKQ.setText("Chính xác");
+        mScoreView.setText(mScore + "");
+        tvKQ.setTextColor(getResources().getColor(R.color.greenn));
+        btnBack.setVisibility(View.GONE);
+
+        //set Action
+        btnBack.setOnClickListener(this);
+        btNext.setOnClickListener(this);
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog = alertDialog;
+        alertDialog.show();
+    }
+
+    @Override
+    public void showDialogAnswerFalse() {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(QuizActivity.this);
+        View v = LayoutInflater.from(this).inflate(R.layout.dialog_answer_true, null);
+        builder.setCancelable(false);
+        builder.setView(v);
+        TextView tvKQ;
+        Button btnBack;
+        Button btNext;
+        tvKQ = (TextView) v.findViewById(R.id.tvKQ);
+        btnBack = (Button) v.findViewById(R.id.btnBack);
+        btNext = (Button) v.findViewById(R.id.btNext);
+
+        //set Text và color khi đoán sai
+        tvKQ.setText("Không Chính Xác");
+        tvKQ.setTextColor(getResources().getColor(R.color.red));
+        btnBack.setVisibility(View.VISIBLE);
+
+
+        //set action
+        btnBack.setOnClickListener(this);
+        btNext.setOnClickListener(this);
+
+        AlertDialog alertDialog1 = builder.create();
+        alertDialog1.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog = alertDialog1;
+        alertDialog1.show();
+    }
+
+    @Override
+    public void animationLeftToRight(Button button) {
+        ObjectAnimator animLeft = (ObjectAnimator) AnimatorInflater.loadAnimator(this, R.animator.left_to_right);
+        animLeft.setTarget(button);
+        animLeft.start();
+    }
+
+    @Override
+    public void animationRightToLeft(Button button) {
+        ObjectAnimator animRight = (ObjectAnimator) AnimatorInflater.loadAnimator(QuizActivity.this, R.animator.right_to_left);
+        animRight.setTarget(button);
+        animRight.start();
+    }
+
+    @Override
+    public void animationRotation(ImageView imageView) {
+        ObjectAnimator animator = ObjectAnimator.ofFloat(imageView, View.ROTATION_Y, 0, 360);
+        animator.setRepeatCount(100);
+        animator.setDuration(4000);
+        animator.start();
+    }
+
+
+    @Override
+    public void onClick(View view) {
+        if (view.getId() == R.id.btnStop) {
+            initStop();
+        } else if (view.getId() == R.id.btnBack) {
+            dialog.dismiss();
+        } else if (view.getId() == R.id.btNext) {
+            quizPresenter.updatecauhoi(mQuestionNumber, mScore);
+            dialog.dismiss();
+        } else if (view.getId() == R.id.btnBackHome) {
+            openActivity(MainActivity.class);
+        } else if (view.getId() == R.id.btnBack1) {
+            openActivity(MainActivity.class);
+        } else if (view.getId() == R.id.btnRequest1) {
+            finish();
+        } else if (view.getId() == R.id.btnRequest) {
+            finish();
+        } else if (view.getId() == R.id.btnHuy) {
+            dialog.dismiss();
+        }
+    }
+
+    //click answer
+    public void onClickAnswer(View view) {
+        Button answer = (Button) view;
+        quizPresenter.soSanhDapAn(answer.getText().toString(), mAnswer);
+    }
+
 }

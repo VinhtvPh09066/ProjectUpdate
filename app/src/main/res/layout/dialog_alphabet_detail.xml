@@ -2,6 +2,7 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/dialog_rounder"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -19,38 +20,19 @@
             android:gravity="center"
             android:orientation="horizontal">
 
-            <!--                        <TextView-->
-            <!--                            android:id="@+id/alphabet_cardview_tv_hira"-->
-            <!--                            android:layout_weight="1"-->
-            <!--                            android:layout_width="wrap_content"-->
-            <!--                            android:layout_height="wrap_content"-->
-            <!--                            android:text="あ"-->
-            <!--                            android:gravity="center"-->
-            <!--                            android:textSize="40sp" />-->
-
-            <!--            <TextView-->
-            <!--                android:id="@+id/alphabet_cardview_tv_kata"-->
-            <!--                android:layout_weight="1"-->
-            <!--                android:gravity="center"-->
-            <!--                android:layout_width="wrap_content"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:text="ア"-->
-            <!--                android:textSize="40sp" />-->
 
             <pl.droidsonroids.gif.GifImageView
-                android:background="@drawable/dialog_rounder"
                 android:id="@+id/alphabet_cardview_tv_hira1"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:layout_marginRight="32dp"/>
+                android:layout_marginRight="32dp"
+                android:background="@drawable/dialog_rounder" />
 
             <pl.droidsonroids.gif.GifImageView
-                android:background="@drawable/dialog_rounder"
                 android:id="@+id/alphabet_cardview_tv_kata1"
                 android:layout_width="100dp"
-                android:layout_height="100dp" />
-
-
+                android:layout_height="100dp"
+                android:background="@drawable/dialog_rounder" />
 
 
         </LinearLayout>
@@ -60,16 +42,16 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:layout_weight="1"
-            android:orientation="horizontal"
-            android:gravity="center">
+            android:gravity="center"
+            android:orientation="horizontal">
 
             <TextView
-                android:padding="8dp"
-                android:background="@drawable/dialog_rounder"
                 android:id="@+id/alphabet_cardview_tv_roma"
                 android:layout_width="70dp"
                 android:layout_height="70dp"
+                android:background="@drawable/dialog_rounder"
                 android:gravity="center"
+                android:padding="8dp"
                 android:text="ma"
                 android:textColor="#FD0303"
                 android:textSize="32sp" />

@@ -5,8 +5,8 @@
     android:layout_height="match_parent"
     android:layout_marginLeft="5dp"
     android:layout_marginRight="5dp"
-    android:gravity="center"
-    >
+    android:gravity="center">
+
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -16,6 +16,7 @@
         android:layout_gravity="center"
         app:cardBackgroundColor="#abffc0"
         app:cardCornerRadius="25dp">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -31,101 +32,97 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:text="Thông báo"
-                    android:textSize="30sp"
+                    android:text="Kết quả"
                     android:textAlignment="center"
-                    android:textStyle="bold"/>
+                    android:textSize="32sp"
+                    android:textStyle="bold" />
+
                 <ImageView
                     android:id="@+id/imgmedal"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
                     android:layout_marginBottom="10dp"
-                    android:src="@drawable/imgmedal"/>
+                    android:src="@drawable/imgmedal" />
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:text="Bạn đã kết thúc kiểm tra!"
-                    android:textSize="18sp"
+                    android:text="Rất tốt, bạn hãy tiếp tục phát huy :)"
                     android:textAlignment="center"
-                    android:textStyle="bold"/>
+                    android:textSize="20sp" />
+
                 <LinearLayout
-                    android:orientation="horizontal"
+                    android:layout_marginTop="8dp"
                     android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:layout_height="wrap_content">
+                    android:orientation="horizontal">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-
                         android:text="Bạn đạt được: "
-                        android:textSize="18sp"
+                        android:textSize="20sp" />
 
-                        android:textStyle="bold"/>
                     <TextView
+                        android:id="@+id/tvDiem"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/tvDiem"
                         android:text="10"
-                        android:textSize="18sp"
-                        android:textStyle="bold"/>
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="/"
-                        android:textSize="18sp"
-                        android:textStyle="bold"/>
+                        android:textSize="24sp"
+                        android:textStyle="bold" />
+
                     <TextView
                         android:id="@+id/tvTong"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="20"
-                        android:textSize="18sp"
-                        android:textStyle="bold"/>
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text=" câu"
-                        android:textSize="18sp"
-                        android:textStyle="bold"/>
+                        android:textSize="20sp" />
                 </LinearLayout>
-                <LinearLayout
-                    android:padding="20dp"
-                    android:orientation="horizontal"
-                    android:gravity="center_horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                    <Button
-                        android:drawableLeft="@drawable/ic_navigate_before_black_24dp"
-                        android:background="@drawable/button_nocolortrue"
-                        android:layout_width="wrap_content"
-                        android:text="thoát"
-                        android:id="@+id/btnBack"
-                        android:layout_height="40dp"
-                        android:layout_margin="4dp"
-                        android:paddingLeft="5dp"
-                        android:paddingRight="25dp"
 
-                        android:gravity="center_vertical"
-                        />
+                <LinearLayout
+                    android:layout_marginTop="16dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal"
+                    android:padding="10dp">
+
                     <Button
-                        android:layout_margin="4dp"
-                        android:drawableRight="@drawable/ic_navigate_next_black_24dp"
+                        android:id="@+id/btnBackHome"
+                        android:layout_width="120dp"
+                        android:layout_height="40dp"
                         android:background="@drawable/button_nocolortrue"
-                        android:layout_width="wrap_content"
-                        android:text="làm lại"
+                        android:text="thoát"
+                        android:textColor="@color/white"/>
+
+                    <Button
+                        android:layout_marginLeft="24dp"
                         android:id="@+id/btnRequest"
-                        android:drawablePadding="2dp"
-                        android:gravity="center_vertical"
-                        android:paddingLeft="25dp"
-                        android:paddingRight="5dp"
-                        android:layout_height="40dp"/>
+                        android:layout_width="120dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/button_nocolortrue"
+                        android:drawableLeft="@drawable/ic_refresh_black_24dp"
+                        android:drawableTint="@color/white"
+                        android:paddingLeft="12dp"
+                        android:paddingRight="16dp"
+                        android:text="làm lại"
+                        android:textColor="@color/white"/>
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>

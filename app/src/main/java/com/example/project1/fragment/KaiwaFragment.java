@@ -1,15 +1,10 @@
 package com.example.project1.fragment;
 
-import android.content.ContentUris;
-import android.content.Context;
 import android.content.res.AssetFileDescriptor;
 import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,9 +13,10 @@ import android.widget.ListView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import androidx.fragment.app.Fragment;
+
 import com.example.project1.R;
 import com.example.project1.adapter.KaiwaAdapter;
-import com.example.project1.adapter.KanjiAdapter;
 import com.example.project1.database.DataBaseHelper;
 import com.example.project1.model.Kaiwa;
 
@@ -54,14 +50,13 @@ public class KaiwaFragment extends Fragment {
         // Required empty public constructor
     }
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_kaiwa, container, false);
         initView(view);
-
-        mediaPlayer = new MediaPlayer();
 
         kaiwaList = new ArrayList<>();
         dataBaseHelper = new DataBaseHelper(getActivity());
@@ -78,7 +73,6 @@ public class KaiwaFragment extends Fragment {
         lvKaiwa.setAdapter(kaiwaAdapter);
 
 
-
         imgPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -87,25 +81,31 @@ public class KaiwaFragment extends Fragment {
 
                     if (mediaPlayer != null) {
                         mediaPlayer.pause();
-                        // Changing button image to play button
                         imgPlay.setImageResource(R.drawable.ic_play_arrow_black_24dp);
                     }
 
                 } else {
-                    // Resume song
                     if (mediaPlayer != null) {
                         mediaPlayer.start();
-                        // Changing button image to pause button
                         imgPlay.setImageResource(R.drawable.ic_pause_black_24dp);
                     }
                 }
             }
         });
 
+
         return view;
     }
 
-
+//    public void onPlaykaiwa(){
+//        playKaiwa(idSpinnerChose);
+//    }
+//    public void onStopkaiwa(){
+//        if (mediaPlayer!=null){
+//            mediaPlayer.stop();
+//            mediaPlayer.release();
+//        }
+//    }
 
     public void playKaiwa(int lesson_id) {
         try {
@@ -116,9 +116,7 @@ public class KaiwaFragment extends Fragment {
             mediaPlayer.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
             mediaPlayer.prepare();
 
-            mediaPlayer.start();
-
-            // Displaying Song title
+//            mediaPlayer.start();
 
             finalTime = mediaPlayer.getDuration();
             startTime = mediaPlayer.getCurrentPosition();
@@ -170,24 +168,33 @@ public class KaiwaFragment extends Fragment {
 //    };
 
 
-
-
     @Override
     public void onResume() {
         super.onResume();
         playKaiwa(idSpinnerChose);
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        if (mediaPlayer != null) mediaPlayer.release();
+        mediaPlayer.start();
+        Log.e("resumeFrag", "true");
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        mediaPlayer.release();
+        mediaPlayer.pause();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (mediaPlayer != null) {
+            mediaPlayer.stop();
+            mediaPlayer.release();
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
     }
 
     @Override
@@ -197,14 +204,13 @@ public class KaiwaFragment extends Fragment {
     }
 
 
-
     private void initView(View view) {
-        sbTime = (SeekBar) view.findViewById(R.id.sbTime);
-        imgPlay = (ImageView) view.findViewById(R.id.imgPlay);
-        tvStartTime = (TextView) view.findViewById(R.id.tvStartTime);
-        tvEndTime = (TextView) view.findViewById(R.id.tvEndTime);
-        tvKaiwaTitle = (TextView) view.findViewById(R.id.tvKaiwa_Title);
-        lvKaiwa = (ListView) view.findViewById(R.id.lvKaiwa);
+        sbTime = view.findViewById(R.id.sbTime);
+        imgPlay = view.findViewById(R.id.imgPlay);
+        tvStartTime = view.findViewById(R.id.tvStartTime);
+        tvEndTime = view.findViewById(R.id.tvEndTime);
+        tvKaiwaTitle = view.findViewById(R.id.tvKaiwa_Title);
+        lvKaiwa = view.findViewById(R.id.lvKaiwa);
 
     }
 

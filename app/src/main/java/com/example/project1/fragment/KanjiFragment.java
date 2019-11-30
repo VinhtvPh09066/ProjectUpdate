@@ -1,30 +1,22 @@
 package com.example.project1.fragment;
 
 import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.AdapterView;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.example.project1.ItemClickSupport;
+import androidx.fragment.app.Fragment;
+
 import com.example.project1.R;
 import com.example.project1.adapter.KanjiAdapter;
-import com.example.project1.adapter.KotobaAdapter;
 import com.example.project1.database.DataBaseHelper;
 import com.example.project1.model.Kanji;
 
@@ -88,17 +80,24 @@ public class KanjiFragment extends Fragment {
         Kanji k = kanjiList.get(i);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+
         final View dialog = LayoutInflater.from(view.getContext()).inflate(R.layout.dialog_kanji_detail, null);
         builder.setView(dialog);
 
-        tvKanji = (TextView) dialog.findViewById(R.id.tvKanji);
-        tvCNMean = (TextView) dialog.findViewById(R.id.tvCNMean);
-        tvKunyomi = (TextView) dialog.findViewById(R.id.tvKunyomi);
-        tvMean = (TextView) dialog.findViewById(R.id.tvMean);
-        tvOnnyomi = (TextView) dialog.findViewById(R.id.tvOnnyomi);
-        tvNote = (TextView) dialog.findViewById(R.id.tvNote);
-        imbCancel = (ImageView) dialog.findViewById(R.id.imbCancel);
+//        DialogKanjiDetailBinding binding = DataBindingUtil.inflate(LayoutInflater.from(getContext()),
+//                R.layout.dialog_kanji_detail , null, false);
+//        builder.setView(binding.getRoot());
 
+
+        tvKanji = dialog.findViewById(R.id.tvKanji);
+        tvCNMean = dialog.findViewById(R.id.tvCNMean);
+        tvKunyomi = dialog.findViewById(R.id.tvKunyomi);
+        tvMean = dialog.findViewById(R.id.tvMean);
+        tvOnnyomi = dialog.findViewById(R.id.tvOnnyomi);
+        tvNote = dialog.findViewById(R.id.tvNote);
+        imbCancel = dialog.findViewById(R.id.imbCancel);
+
+//        binding.setKanji(k);
 
         tvKanji.setText(k.getKanji());
         tvCNMean.setText(k.getCn_mean());
@@ -112,15 +111,15 @@ public class KanjiFragment extends Fragment {
         String[] splitStr = note.split("※");
         String[] output = new String[100];
 
-        for (int j = 0; j < splitStr.length; j++){
+        for (int j = 0; j < splitStr.length; j++) {
             output[j] = "";
             String[] splitSub = splitStr[j].split("∴");
 
-            for (int n = 0; n < splitSub.length; n++){
-                output[j] =output[j] + splitSub[n] + "      ";
+            for (int n = 0; n < splitSub.length; n++) {
+                output[j] = output[j] + splitSub[n] + "      ";
             }
 
-            vd =  vd + " 。 " + output[j] + "\n";
+            vd = vd + " 。 " + output[j] + "\n";
         }
         tvNote.setText(vd);
 
@@ -133,11 +132,11 @@ public class KanjiFragment extends Fragment {
         alertDialog = builder.create();
 //                alertDialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
         alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        alertDialog = builder.show();
+        alertDialog.show();
 
     }
 
     private void initView(View view) {
-        lvKanji = (ListView) view.findViewById(R.id.lv_Kanji);
+        lvKanji = view.findViewById(R.id.lv_Kanji);
     }
 }
