@@ -61,7 +61,6 @@ public class VietNhatFragment extends Fragment {
                     return;
                     // nếu chữ ko empty thì tiếp tục tìm kiếm và hiển thị danh sách kết quả lên list nếu có
                 } else {
-
                     wordList = dataBaseHelper.searchVietNhat(word);
 //                    this.addAll(wordList);
                     wordAdapter = new WordAdapter(wordList, getContext());

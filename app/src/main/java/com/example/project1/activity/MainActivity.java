@@ -14,7 +14,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class MainActivity extends BaseActivity {
 
-    private FloatingActionButton btnFab;
+//    private FloatingActionButton btnFab;
     private LinearLayout grammar;
     private LinearLayout translate;
     private LinearLayout lesson;
@@ -83,7 +83,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void initView(){
-        btnFab = (FloatingActionButton) findViewById(R.id.btnFab);
+//        btnFab = (FloatingActionButton) findViewById(R.id.btnFab);
         grammar = (LinearLayout) findViewById(R.id.grammar);
         translate = (LinearLayout) findViewById(R.id.translate);
         lesson = (LinearLayout) findViewById(R.id.lesson);

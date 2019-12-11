@@ -56,7 +56,7 @@ public class KotobaFragment extends Fragment {
 
     private void initView(View view){
         lvKotoba = (ListView) view.findViewById(R.id.lvKotoba);
-        fabKotobaPlay = (FloatingActionButton) view.findViewById(R.id.fab_kotoba_Play);
+//        fabKotobaPlay = (FloatingActionButton) view.findViewById(R.id.fab_kotoba_Play);
     }
 
 }

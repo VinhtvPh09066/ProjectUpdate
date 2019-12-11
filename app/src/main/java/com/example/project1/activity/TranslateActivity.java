@@ -53,8 +53,6 @@ public class TranslateActivity extends BaseActivity implements TranslateView, Vi
         createBottomSheetBehavior();
         fab.setOnClickListener(this);
         tvDelete.setOnClickListener(this);
-
-
     }
 
 

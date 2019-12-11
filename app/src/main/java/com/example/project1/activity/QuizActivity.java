@@ -96,7 +96,6 @@ public class QuizActivity extends BaseActivity implements QuizView, View.OnClick
         View view = LayoutInflater.from(QuizActivity.this).inflate(R.layout.dialog_notification, null);
         builder.setView(view);
 
-
         //khai báo và ánh xạ
         ImageView img;
         Button btnHuy;
@@ -110,39 +109,70 @@ public class QuizActivity extends BaseActivity implements QuizView, View.OnClick
         animationLeftToRight(btnHuy);
         animationRightToLeft(btnDongY);
 
-
         //set onclick
         btnDongY.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(QuizActivity.this);
-                View alert = LayoutInflater.from(QuizActivity.this).inflate(R.layout.dialog_notificationtrue, null);
-                builder.setView(alert);
-                builder.setCancelable(false);
 
-                //khai báo và ánh xạ
-                TextView tvDiem;
-                Button btnBack, btnRequest;
-                ImageView imgmedal;
-                tvDiem = (TextView) alert.findViewById(R.id.tvDiem);
-                btnBack = alert.findViewById(R.id.btnBackHome);
-                btnRequest = alert.findViewById(R.id.btnRequest);
-                imgmedal = alert.findViewById(R.id.imgmedal);
-                tvDiem.setText("" + mScore);
+                if (mScore > 10) {
+                    View alert = LayoutInflater.from(QuizActivity.this).inflate(R.layout.dialog_notificationtrue, null);
+                    builder.setView(alert);
+                    builder.setCancelable(false);
 
-                //set animaton
-                animationLeftToRight(btnBack);
-                animationRotation(imgmedal);
+                    //khai báo và ánh xạ
+                    TextView tvDiem;
+                    Button btnBack, btnRequest;
+                    ImageView imgmedal;
+                    tvDiem = (TextView) alert.findViewById(R.id.tvDiem);
+                    btnBack = alert.findViewById(R.id.btnBackHome);
+                    btnRequest = alert.findViewById(R.id.btnRequest);
+                    imgmedal = alert.findViewById(R.id.imgmedal);
+                    tvDiem.setText("" + mScore);
+
+                    //set animaton
+                    animationLeftToRight(btnBack);
+                    animationRotation(imgmedal);
+
+                    // set onlick
+                    btnBack.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            openActivity(MainActivity.class);
+                        }
+                    });
+                    btnRequest.setVisibility(View.GONE);
+                }else {
+                    View alert = LayoutInflater.from(QuizActivity.this).inflate(R.layout.dialog_notificationfalse, null);
+                    builder.setView(alert);
+                    builder.setCancelable(false);
+
+                    // khai báo và ánh xạ
+                    TextView tvDiem1;
+                    Button btnBack1, btnRequest1;
+                    ImageView imgmedal;
+                    tvDiem1 = alert.findViewById(R.id.tvDiem1);
+                    btnBack1 = alert.findViewById(R.id.btnBack1);
+                    btnRequest1 = alert.findViewById(R.id.btnRequest1);
+                    imgmedal = alert.findViewById(R.id.img);
+                    tvDiem1.setText("" + mScore);
 
 
-                // set onlick
-                btnBack.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        openActivity(MainActivity.class);
-                    }
-                });
-                btnRequest.setVisibility(View.GONE);
+                    //set animation
+                    animationLeftToRight(btnBack1);
+                    animationRightToLeft(btnRequest1);
+                    animationRotation(imgmedal);
+
+
+                    //set Action
+                    btnBack1.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            openActivity(MainActivity.class);
+                        }
+                    });
+                    btnRequest1.setVisibility(View.GONE);
+                }
 
 
                 AlertDialog alertDialog = builder.create();

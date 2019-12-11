@@ -1,5 +1,6 @@
 package com.example.project1.fragment;
 
+import android.content.Context;
 import android.content.res.AssetFileDescriptor;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -39,6 +41,7 @@ public class KaiwaFragment extends Fragment {
     private List<Kaiwa> kaiwaList;
     DataBaseHelper dataBaseHelper;
     KaiwaAdapter kaiwaAdapter;
+    private Boolean isPlaying = false;
 
     MediaPlayer mediaPlayer;
     double startTime = 0;
@@ -64,7 +67,6 @@ public class KaiwaFragment extends Fragment {
 
         tvKaiwaTitle.setText(kaiwaList.get(0).getCharacter());
 
-
         List<Kaiwa> kaiwaListCut = new ArrayList<>();
         for (int j = 1; j < kaiwaList.size(); j++) {
             kaiwaListCut.add(kaiwaList.get(j));
@@ -73,6 +75,33 @@ public class KaiwaFragment extends Fragment {
         lvKaiwa.setAdapter(kaiwaAdapter);
 
 
+
+        return view;
+    }
+
+
+    public void playKaiwa(int lesson_id, Context context) {
+        try {
+            AssetFileDescriptor afd = context.getAssets().openFd("kaiwa/" + lesson_id + ".mp3");
+
+            mediaPlayer = new MediaPlayer();
+
+            mediaPlayer.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
+            mediaPlayer.prepare();
+
+            mediaPlayer.start();
+            Log.e("Media", mediaPlayer.isPlaying()+"");
+            isPlaying = true;
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.e("Playing", "onResume");
         imgPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -92,34 +121,57 @@ public class KaiwaFragment extends Fragment {
                 }
             }
         });
-
-
-        return view;
+        onPlaying(mediaPlayer);
     }
 
-//    public void onPlaykaiwa(){
-//        playKaiwa(idSpinnerChose);
-//    }
-//    public void onStopkaiwa(){
-//        if (mediaPlayer!=null){
-//            mediaPlayer.stop();
-//            mediaPlayer.release();
-//        }
-//    }
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (mediaPlayer != null) {
+            mediaPlayer.pause();
+        }
+    }
 
-    public void playKaiwa(int lesson_id) {
-        try {
-            AssetFileDescriptor afd = getActivity().getAssets().openFd("kaiwa/" + lesson_id + ".mp3");
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (mediaPlayer != null) {
+            mediaPlayer.stop();
+        }
+    }
 
-            mediaPlayer = new MediaPlayer();
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
 
-            mediaPlayer.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
-            mediaPlayer.prepare();
+    }
 
-//            mediaPlayer.start();
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        if (mediaPlayer != null) {
+            mediaPlayer.stop();
+            mediaPlayer.release();
+        }
+    }
 
-            finalTime = mediaPlayer.getDuration();
-            startTime = mediaPlayer.getCurrentPosition();
+
+    private void initView(View view) {
+        LinearLayout statusbar = view.findViewById(R.id.statusbar);
+        statusbar.setVisibility(View.GONE);
+        sbTime = view.findViewById(R.id.sbTime);
+        imgPlay = view.findViewById(R.id.imgPlay);
+        tvStartTime = view.findViewById(R.id.tvStartTime);
+        tvEndTime = view.findViewById(R.id.tvEndTime);
+        tvKaiwaTitle = view.findViewById(R.id.tvKaiwa_Title);
+        lvKaiwa = view.findViewById(R.id.lvKaiwa);
+
+    }
+
+    public void onPlaying(MediaPlayer media) {
+        if (isPlaying) {
+            finalTime = media.getDuration();
+            startTime = media.getCurrentPosition();
             if (oneTimeOnly == 0) {
                 sbTime.setMax((int) finalTime);
                 oneTimeOnly = 1;
@@ -141,77 +193,30 @@ public class KaiwaFragment extends Fragment {
             ));
 
             sbTime.setProgress((int) startTime);
-//            myHandler.postDelayed(UpdateSongTime, 100);
+            myHandler.postDelayed(UpdateSongTime, 100);
             imgPlay.setImageResource(R.drawable.ic_pause_black_24dp);
-
-        } catch (IOException e) {
-            e.printStackTrace();
         }
+        Log.e("Playing", "onPlaying");
 
     }
 
-//    private Runnable UpdateSongTime = new Runnable() {
-//        @Override
-//        public void run() {
-//            startTime = mediaPlayer.getCurrentPosition();
-//            tvStartTime.setText(String.format(
-//                    "%d : %d",
-//                    TimeUnit.MILLISECONDS.toMinutes((long) startTime),
-//                    TimeUnit.MILLISECONDS.toSeconds((long) startTime)
-//                            - TimeUnit.MINUTES.toSeconds(
-//                            TimeUnit.MILLISECONDS.toMinutes((long) startTime))
-//
-//            ));
-//            sbTime.setProgress((int) startTime);
-//            myHandler.postDelayed(this, 100);
-//        }
-//    };
+    private Runnable UpdateSongTime = new Runnable() {
+        @Override
+        public void run() {
+            startTime = mediaPlayer.getCurrentPosition();
+            tvStartTime.setText(String.format(
+                    "%d : %d",
+                    TimeUnit.MILLISECONDS.toMinutes((long) startTime),
+                    TimeUnit.MILLISECONDS.toSeconds((long) startTime)
+                            - TimeUnit.MINUTES.toSeconds(
+                            TimeUnit.MILLISECONDS.toMinutes((long) startTime))
 
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        playKaiwa(idSpinnerChose);
-        mediaPlayer.start();
-        Log.e("resumeFrag", "true");
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        mediaPlayer.pause();
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        if (mediaPlayer != null) {
-            mediaPlayer.stop();
-            mediaPlayer.release();
+            ));
+            sbTime.setProgress((int) startTime);
+            myHandler.postDelayed(this, 100);
         }
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mediaPlayer.release();
-    }
+    };
 
 
-    private void initView(View view) {
-        sbTime = view.findViewById(R.id.sbTime);
-        imgPlay = view.findViewById(R.id.imgPlay);
-        tvStartTime = view.findViewById(R.id.tvStartTime);
-        tvEndTime = view.findViewById(R.id.tvEndTime);
-        tvKaiwaTitle = view.findViewById(R.id.tvKaiwa_Title);
-        lvKaiwa = view.findViewById(R.id.lvKaiwa);
-
-    }
 
 }

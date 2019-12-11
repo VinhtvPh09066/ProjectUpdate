@@ -45,7 +45,6 @@ public class KotobaAdapter extends BaseAdapter {
 
         TextView tvHiragana = (TextView) convertView.findViewById(R.id.tvHiragana);
         TextView tvMean = (TextView) convertView.findViewById(R.id.tvMean);
-        ImageView imgPro = (ImageView) convertView.findViewById(R.id.imgPro);
 
         Kotoba word = kotobas.get(i);
 

@@ -10,6 +10,7 @@
     tools:context=".fragment.KaiwaFragment">
 
     <LinearLayout
+        android:id="@+id/statusbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/dialog_rounder_gray"

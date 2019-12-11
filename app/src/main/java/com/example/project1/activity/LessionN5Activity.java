@@ -1,11 +1,11 @@
 package com.example.project1.activity;
 
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 
 import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.project1.R;
@@ -21,7 +21,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.example.project1.morefunc.DataSave.idSpinnerChose;
-import static com.example.project1.morefunc.DataSave.mediaSave;
 
 public class LessionN5Activity extends BaseActivity {
 
@@ -29,6 +28,8 @@ public class LessionN5Activity extends BaseActivity {
     private MaterialSpinner spinnerNav;
     private TabLayout tabLayout;
     private ViewPager viewPager;
+    public MediaPlayer media = null;
+    KaiwaFragment kw = new KaiwaFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,12 +40,12 @@ public class LessionN5Activity extends BaseActivity {
         setSupportActionBar(toolbarLession);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("BÀI HỌC N5");
-
         getLession(spinnerNav);
         Log.e("spinner selected index", spinnerNav.getSelectedIndex() + "");
         spinnerNav.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener() {
             @Override
             public void onItemSelected(MaterialSpinner view, int position, long id, Object item) {
+                kw.onPause();
                 idSpinnerChose = position + 1;
                 addTabs(viewPager);
             }
@@ -52,43 +53,57 @@ public class LessionN5Activity extends BaseActivity {
 
         addTabs(viewPager);
         tabLayout.setupWithViewPager(viewPager);
-//        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-//            @Override
-//            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-//
-//            }
-//
-//            @Override
-//            public void onPageSelected(int position) {
-//                if (position != 2) {
-//                    converFrag.onPlaykaiwa();
-//                } else {
-//                    converFrag.onStopkaiwa();
-//                }
-//            }
-//
-//            @Override
-//            public void onPageScrollStateChanged(int state) {
-//
-//            }
-//        });
-//
-//        spinnerNav.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(MaterialSpinner view, int position, long id, Object item) {
-//                idSpinnerChose = spinnerNav.getSelectedIndex() + 1;
-//                addTabs(viewPager);
-//            }
-//        });
+
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if (position == 2) {
+                    if (media == null){
+                        kw.playKaiwa(idSpinnerChose, getApplicationContext());
+                    }
+                } else {
+                    kw.onPause();
+                    media = null;
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+
+        spinnerNav.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(MaterialSpinner view, int position, long id, Object item) {
+                idSpinnerChose = spinnerNav.getSelectedIndex() + 1;
+                addTabs(viewPager);
+            }
+        });
     }
 
-//    KaiwaFragment converFrag;
+    @Override
+    protected void onStop() {
+        super.onStop();
+        kw.onPause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        kw.onPause();
+    }
+
     public void addTabs(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
         adapter.addFrm(new KotobaFragment(), "Từ vựng");
         adapter.addFrm(new BumpoFragment(), "Ngữ pháp");
-//        converFrag=new KaiwaFragment();
         adapter.addFrm(new KaiwaFragment(), "Hội thoại");
         adapter.addFrm(new KanjiFragment(), "Chữ Hán");
         viewPager.setAdapter(adapter);
